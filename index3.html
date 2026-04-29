@@ -1,0 +1,713 @@
+Eduai website · HTML
+Copy
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduAI — AI-Powered Education Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #D32F2F;
+    --red-bright: #FF1F1F;
+    --dark: #0A0000;
+    --dark2: #120505;
+    --dark3: #1A0808;
+    --white: #FFFFFF;
+    --muted: #AAAAAA;
+    --glow: radial-gradient(ellipse at center, rgba(180,20,20,0.45) 0%, transparent 70%);
+  }
+ 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+ 
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(10,0,0,0.85);
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.25rem; font-weight: 700; color: var(--white);
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 28px; height: 28px; background: var(--red);
+    clip-path: polygon(0 0,100% 0,100% 60%,60% 100%,0 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-links { display: flex; gap: 48px; list-style: none; }
+  .nav-links a {
+    color: var(--white); text-decoration: none; font-size: 0.95rem;
+    letter-spacing: 0.04em; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--red-bright); }
+  .nav-corner {
+    width: 32px; height: 32px; background: var(--red);
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+  }
+ 
+  /* ── PAGE NUMBER ── */
+  .page-num {
+    position: absolute; bottom: 24px; right: 0;
+    background: var(--red); color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    padding: 10px 16px; min-width: 52px; text-align: center;
+    z-index: 10;
+  }
+ 
+  /* ── SECTION BASE ── */
+  section {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 100px 48px 80px;
+    overflow: hidden;
+  }
+ 
+  /* ── SECTION LABEL ── */
+  .section-label {
+    display: block; width: 40px; height: 4px;
+    background: var(--red); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1; text-transform: uppercase; letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 01 — HERO
+  ───────────────────────────────────────── */
+  #hero {
+    justify-content: center; align-items: center; text-align: center;
+    background: radial-gradient(ellipse at 50% 60%, rgba(200,30,0,0.55) 0%, #0A0000 65%);
+  }
+  #hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(5rem, 16vw, 14rem);
+    font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em;
+    line-height: 0.9;
+    background: linear-gradient(180deg, #fff 40%, rgba(255,255,255,0.55) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp 1s ease both;
+  }
+  #hero .tagline {
+    margin-top: 28px; letter-spacing: 0.35em; font-size: 0.85rem;
+    color: rgba(255,255,255,0.6); text-transform: uppercase;
+    animation: fadeUp 1s .3s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 02 — ABOUT US
+  ───────────────────────────────────────── */
+  #about {
+    background: linear-gradient(135deg, #0A0000 60%, #1C0505 100%);
+    gap: 0;
+  }
+  .about-img {
+    width: 48%; position: relative; align-self: stretch;
+    overflow: hidden;
+  }
+  .about-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%);
+    filter: brightness(0.7) saturate(1.4);
+  }
+  .about-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--dark) 100%);
+  }
+  .about-content { width: 52%; padding-left: 64px; }
+  .about-content p {
+    color: var(--muted); line-height: 1.8; font-size: 1rem; margin-bottom: 20px;
+  }
+  .btn-red {
+    display: inline-block; padding: 14px 32px;
+    background: var(--red); color: var(--white);
+    font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 0.9rem;
+    letter-spacing: 0.06em; text-decoration: none; text-transform: uppercase;
+    border: none; cursor: pointer; transition: background .2s, transform .15s;
+    margin-top: 12px;
+  }
+  .btn-red:hover { background: var(--red-bright); transform: translateY(-2px); }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 03 — ABOUT FUTURE TECHNOLOGY
+  ───────────────────────────────────────── */
+  #future {
+    background: linear-gradient(160deg, #0A0000 55%, #1A0202 100%);
+  }
+  .future-content { width: 50%; padding-right: 48px; }
+  .future-content p {
+    color: var(--muted); line-height: 1.8; font-size: 1rem; margin-bottom: 20px;
+  }
+  .future-imgs {
+    width: 50%; display: flex; position: relative; height: 480px;
+  }
+  .future-imgs img {
+    position: absolute; object-fit: cover;
+    filter: brightness(0.75) saturate(1.3);
+  }
+  .future-imgs .img1 {
+    width: 60%; height: 85%; top: 0; right: 10%;
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .future-imgs .img2 {
+    width: 55%; height: 80%; bottom: 0; right: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
+    border: 3px solid rgba(180,20,20,0.3);
+  }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 04 — OUR SERVICE
+  ───────────────────────────────────────── */
+  #service {
+    flex-direction: column; align-items: flex-start;
+    background: linear-gradient(180deg, #0A0000 0%, #160404 100%);
+    padding-top: 120px;
+  }
+  .service-top {
+    display: flex; width: 100%; margin-bottom: 60px;
+  }
+  .service-top-left { width: 40%; }
+  .service-top-right {
+    width: 60%; height: 280px; position: relative; overflow: hidden;
+  }
+  .service-top-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.65) saturate(1.3);
+  }
+  .service-top-left p {
+    color: var(--muted); line-height: 1.8; font-size: 1rem; max-width: 400px;
+    margin-top: 8px;
+  }
+  .service-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; width: 100%;
+  }
+  .service-card { }
+  .service-num {
+    width: 48px; height: 48px; background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  .service-card p {
+    color: var(--muted); line-height: 1.7; font-size: 0.95rem;
+  }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 05 — OUR VISION
+  ───────────────────────────────────────── */
+  #vision {
+    background: linear-gradient(140deg, #0A0000 55%, #180404 100%);
+    gap: 0;
+  }
+  .vision-img {
+    width: 50%; position: relative; align-self: stretch; overflow: hidden;
+  }
+  .vision-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    clip-path: polygon(0 0, 88% 0, 100% 100%, 0 100%);
+    filter: brightness(0.65) saturate(1.5) hue-rotate(-10deg);
+  }
+  .vision-content { width: 50%; padding-left: 72px; }
+  .vision-items { display: flex; flex-direction: column; gap: 28px; margin-top: 8px; }
+  .vision-item { display: flex; gap: 20px; align-items: flex-start; }
+  .vision-num {
+    min-width: 52px; height: 52px; background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem;
+  }
+  .vision-item p { color: var(--muted); line-height: 1.7; font-size: 0.95rem; }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 06 — OUR MISSION
+  ───────────────────────────────────────── */
+  #mission {
+    background: linear-gradient(160deg, #0A0000 50%, #190404 100%);
+    gap: 0;
+  }
+  .mission-content { width: 55%; }
+  .mission-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 8px;
+  }
+  .mission-item { display: flex; gap: 20px; align-items: flex-start; }
+  .mission-num {
+    min-width: 52px; height: 52px; background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem;
+  }
+  .mission-item p { color: var(--muted); line-height: 1.7; font-size: 0.95rem; }
+  .mission-img {
+    width: 45%; position: relative; align-self: stretch; overflow: hidden;
+  }
+  .mission-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+    filter: brightness(0.65) saturate(1.3);
+  }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 07 — PORTFOLIO
+  ───────────────────────────────────────── */
+  #portfolio {
+    flex-direction: column; align-items: flex-start;
+    background: linear-gradient(180deg, #0A0000 0%, #150303 100%);
+    padding-top: 100px;
+  }
+  .portfolio-gallery {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; width: 100%; height: 320px; overflow: hidden;
+    margin-bottom: 60px;
+  }
+  .portfolio-gallery img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.7) saturate(1.3);
+    transition: filter .3s, transform .4s;
+  }
+  .portfolio-gallery img:hover { filter: brightness(1) saturate(1.5); transform: scale(1.04); }
+  .portfolio-bottom { display: flex; gap: 80px; width: 100%; align-items: flex-start; }
+  .portfolio-bottom p {
+    color: var(--muted); line-height: 1.8; font-size: 1rem; max-width: 500px;
+  }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 08 — TEAM
+  ───────────────────────────────────────── */
+  #team {
+    flex-direction: column; align-items: center; text-align: center;
+    background: linear-gradient(180deg, #0A0000 0%, #1A0404 100%);
+  }
+  #team .section-title { margin-bottom: 60px; }
+  #team .section-label { margin: 0 auto 16px; }
+  .team-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; width: 100%;
+    max-width: 1100px;
+  }
+  .team-card { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .team-card-img {
+    width: 260px; height: 280px; overflow: hidden; position: relative;
+    clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
+  }
+  .team-card-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.75) saturate(1.2);
+    transition: filter .3s;
+  }
+  .team-card:hover .team-card-img img { filter: brightness(1) saturate(1.5); }
+  .team-card h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 1.25rem; color: var(--red-bright); letter-spacing: 0.04em;
+  }
+  .team-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; max-width: 260px; }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 09 — CONTACT
+  ───────────────────────────────────────── */
+  #contact {
+    background: linear-gradient(160deg, #0A0000 50%, #1A0505 100%);
+    gap: 0;
+  }
+  .contact-content { width: 50%; }
+  .contact-list { display: flex; flex-direction: column; gap: 32px; margin-top: 12px; }
+  .contact-item { display: flex; align-items: center; gap: 20px; }
+  .contact-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(211,47,47,0.2); border: 2px solid var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .contact-item span { color: var(--white); font-size: 1.1rem; }
+  .contact-img {
+    width: 50%; position: relative; align-self: stretch; overflow: hidden;
+  }
+  .contact-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+    filter: brightness(0.6) saturate(1.4) hue-rotate(320deg);
+  }
+ 
+  /* ─────────────────────────────────────────
+     PAGE 10 — THANK YOU
+  ───────────────────────────────────────── */
+  #thankyou {
+    justify-content: center; align-items: center; text-align: center; flex-direction: column;
+    background: radial-gradient(ellipse at 50% 65%, rgba(200,30,0,0.5) 0%, #0A0000 65%);
+  }
+  #thankyou h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(5rem, 15vw, 13rem);
+    font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em;
+    line-height: 0.9;
+    background: linear-gradient(180deg, #fff 40%, rgba(255,255,255,0.5) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  #thankyou p {
+    color: rgba(255,255,255,0.5); max-width: 700px; line-height: 1.8;
+    font-size: 1rem; margin-top: 32px;
+  }
+ 
+  /* ── GLOW ORBS ── */
+  .orb {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, rgba(200,20,20,0.5) 0%, transparent 70%);
+    filter: blur(30px);
+  }
+  .orb-1 { width: 200px; height: 200px; left: 8%; bottom: 20%; }
+  .orb-2 { width: 160px; height: 160px; right: 20%; top: 30%; }
+ 
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0A0000; }
+  ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+ 
+  /* ── PLACEHOLDER IMAGES (CSS gradient stand-in) ── */
+  .img-placeholder {
+    background: linear-gradient(135deg, #2a0a0a 0%, #1a0505 50%, #300a0a 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.1); font-size: 0.75rem; letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+ 
+<!-- ── NAVIGATION ── -->
+<nav>
+  <a class="logo" href="#hero">
+    <div class="logo-icon"></div>
+    EduAI
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#service">Features</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-corner"></div>
+</nav>
+ 
+<!-- ═══════════════════════════════════════
+     01 — HERO
+════════════════════════════════════════ -->
+<section id="hero">
+  <h1>EDUAI</h1>
+  <p class="tagline">www.eduai-platform.com</p>
+  <div class="page-num">01</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     02 — ABOUT US
+════════════════════════════════════════ -->
+<section id="about">
+  <div class="about-img">
+    <div class="img-placeholder" style="width:100%;height:100%;min-height:420px;
+      background:linear-gradient(135deg,#280808,#1a0404,#320a0a);"></div>
+    <div class="about-img-overlay"></div>
+  </div>
+  <div class="about-content">
+    <span class="section-label"></span>
+    <h2 class="section-title">About Us</h2>
+    <p>
+      EduAI is an intelligent education platform that bridges the gap between students
+      and quality learning. Powered by cutting-edge Large Language Models and AI technology,
+      we provide every student with a personalized tutor that is available 24/7, understands
+      their pace, and adapts to their unique learning style.
+    </p>
+    <p>
+      Whether you are a student looking for instant doubt resolution, a teacher who wants
+      to save time grading assignments, or an institution aiming to improve outcomes — EduAI
+      is built for you.
+    </p>
+    <a href="#service" class="btn-red">Explore Features</a>
+  </div>
+  <div class="orb orb-1"></div>
+  <div class="page-num">02</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     03 — ABOUT FUTURE TECHNOLOGY
+════════════════════════════════════════ -->
+<section id="future">
+  <div class="future-content">
+    <span class="section-label"></span>
+    <h2 class="section-title">About Future<br>Technology</h2>
+    <p>
+      The future of education is not a classroom — it is a conversation. EduAI uses
+      LangChain Agents and Vector Databases to create an AI tutor that remembers what
+      you have studied, tracks where you are struggling, and builds a learning path
+      tailored specifically for you.
+    </p>
+    <p>
+      Knowledge Graphs connect concepts across subjects so students can see the bigger
+      picture. Instead of memorising in isolation, learners understand how topics relate,
+      which leads to deeper, long-lasting understanding. This is not the future — this
+      is available today.
+    </p>
+  </div>
+  <div class="future-imgs">
+    <div class="img-placeholder img1" style="
+      position:absolute; width:60%; height:85%; top:0; right:10%;
+      clip-path:polygon(15% 0,100% 0,100% 100%,0 100%);
+      background:linear-gradient(135deg,#2a0a0a,#3a1010);"></div>
+    <div class="img-placeholder img2" style="
+      position:absolute; width:55%; height:80%; bottom:0; right:0;
+      clip-path:polygon(0 0,100% 0,100% 100%,15% 100%);
+      background:linear-gradient(135deg,#350c0c,#1a0404);
+      border:3px solid rgba(180,20,20,0.3);"></div>
+  </div>
+  <div class="orb orb-2"></div>
+  <div class="page-num">03</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     04 — OUR SERVICE (FEATURES)
+════════════════════════════════════════ -->
+<section id="service">
+  <div class="service-top">
+    <div class="service-top-left">
+      <span class="section-label"></span>
+      <h2 class="section-title">Our<br>Features</h2>
+      <p>
+        EduAI combines multiple AI-powered capabilities into a single unified platform
+        so that students, teachers, and institutions can achieve more with less effort.
+      </p>
+    </div>
+    <div class="service-top-right">
+      <div class="img-placeholder" style="width:100%;height:100%;
+        background:linear-gradient(135deg,#350a0a,#200505,#3a0f0f);"></div>
+    </div>
+  </div>
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <p>AI Tutor powered by LLMs that answers student doubts instantly, explains concepts in
+        simple language, and adjusts its depth based on the learner's level.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <p>Personalised learning paths that recommend courses, projects, and tutorials based
+        on your goals, past performance, and areas that need improvement.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <p>Automatic quiz and assessment generation from any topic or document — saving
+        teachers hours of manual work while keeping questions relevant and varied.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <p>AI-generated study notes and assignment evaluation with detailed feedback so
+        students know exactly what to improve and why their answer was marked accordingly.</p>
+    </div>
+  </div>
+  <div class="page-num">04</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     05 — OUR VISION
+════════════════════════════════════════ -->
+<section id="vision">
+  <div class="vision-img">
+    <div class="img-placeholder" style="width:100%;height:100%;min-height:500px;
+      clip-path:polygon(0 0,88% 0,100% 100%,0 100%);
+      background:linear-gradient(160deg,#2a0808,#1a0303,#380c0c);"></div>
+  </div>
+  <div class="vision-content">
+    <span class="section-label"></span>
+    <h2 class="section-title">Our Vision</h2>
+    <div class="vision-items">
+      <div class="vision-item">
+        <div class="vision-num">01</div>
+        <p>Make quality education accessible to every student regardless of their location,
+          background, or financial situation — by putting an expert AI tutor in their pocket
+          that is always available and never impatient.</p>
+      </div>
+      <div class="vision-item">
+        <div class="vision-num">02</div>
+        <p>Empower teachers to focus on what humans do best — inspire, mentor, and connect —
+          while AI handles repetitive tasks like grading, quiz creation, and performance
+          tracking automatically.</p>
+      </div>
+      <div class="vision-item">
+        <div class="vision-num">03</div>
+        <p>Build a global learning ecosystem where Knowledge Graphs connect subjects, Voice
+          AI makes learning hands-free, and every student's journey is uniquely their own
+          from day one.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-num">05</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     06 — OUR MISSION
+════════════════════════════════════════ -->
+<section id="mission">
+  <div class="mission-content">
+    <span class="section-label"></span>
+    <h2 class="section-title">Our Mission</h2>
+    <div class="mission-grid">
+      <div class="mission-item">
+        <div class="mission-num">01</div>
+        <p>Deliver an AI assistant that understands student doubts in natural language
+          and provides clear, accurate, step-by-step explanations at any time of day
+          without waiting for a teacher's availability.</p>
+      </div>
+      <div class="mission-item">
+        <div class="mission-num">02</div>
+        <p>Analyse student performance continuously using data-driven insights so that
+          weak topics are identified early and extra practice is recommended before
+          they become serious knowledge gaps.</p>
+      </div>
+      <div class="mission-item" style="grid-column:1;">
+        <div class="mission-num">03</div>
+        <p>Build trust between students, teachers, and technology by providing
+          transparent AI evaluations, honest feedback, and tools that complement
+          human teaching rather than replacing it entirely.</p>
+      </div>
+    </div>
+  </div>
+  <div class="mission-img">
+    <div class="img-placeholder" style="width:100%;height:100%;min-height:480px;
+      clip-path:polygon(15% 0,100% 0,100% 100%,0 100%);
+      background:linear-gradient(160deg,#300a0a,#1a0404,#3a0e0e);"></div>
+  </div>
+  <div class="orb orb-1"></div>
+  <div class="page-num">06</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     07 — PORTFOLIO / SHOWCASE
+════════════════════════════════════════ -->
+<section id="portfolio">
+  <div class="portfolio-gallery">
+    <div class="img-placeholder" style="background:linear-gradient(135deg,#2a0808,#1a0404);"></div>
+    <div class="img-placeholder" style="background:linear-gradient(135deg,#1a0505,#300a0a);"></div>
+    <div class="img-placeholder" style="background:linear-gradient(135deg,#350c0c,#200606);"></div>
+    <div class="img-placeholder" style="background:linear-gradient(135deg,#200505,#3a1010);width:100%;"></div>
+  </div>
+  <div class="portfolio-bottom">
+    <div>
+      <span class="section-label"></span>
+      <h2 class="section-title">Our<br>Portfolio</h2>
+    </div>
+    <p>
+      From school students solving their first algebra doubt to university learners preparing
+      for competitive exams — EduAI has helped thousands of learners achieve their goals.
+      Our platform has generated over 500,000 personalised quizzes, evaluated more than
+      200,000 assignments, and delivered instant answers to millions of student questions
+      across 40 countries. These are not just numbers — they are real students who learned
+      more, faster, and with greater confidence.
+    </p>
+  </div>
+  <div class="page-num">07</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     08 — MEET OUR TEAM
+════════════════════════════════════════ -->
+<section id="team">
+  <span class="section-label"></span>
+  <h2 class="section-title">Meet Our Team</h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-card-img">
+        <div class="img-placeholder" style="width:100%;height:100%;
+          background:linear-gradient(135deg,#2a0808,#3a1212);"></div>
+      </div>
+      <h3>Aryan Mehta</h3>
+      <p>AI & ML Lead — Builds the LLM backbone, LangChain Agents, and Vector Database
+        pipelines that power the intelligent tutoring system.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-card-img">
+        <div class="img-placeholder" style="width:100%;height:100%;
+          background:linear-gradient(135deg,#350c0c,#1e0606);"></div>
+      </div>
+      <h3>Priya Sharma</h3>
+      <p>Product & EdTech Designer — Crafts the learning experience and ensures the
+        platform is intuitive for both students and educators worldwide.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-card-img">
+        <div class="img-placeholder" style="width:100%;height:100%;
+          background:linear-gradient(135deg,#200808,#2e0e0e);"></div>
+      </div>
+      <h3>Rohan Verma</h3>
+      <p>Full-Stack Engineer — Develops the React frontend and Flutter mobile app that
+        delivers a seamless, cross-platform learning experience on any device.</p>
+    </div>
+  </div>
+  <div class="page-num">08</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     09 — CONTACT US
+════════════════════════════════════════ -->
+<section id="contact">
+  <div class="contact-content">
+    <span class="section-label"></span>
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-list">
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <span>+91-98765-43210</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🌐</div>
+        <span>www.eduai-platform.com</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <span>hello@eduai-platform.com</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <span>Indore, Madhya Pradesh, India — 452001</span>
+      </div>
+    </div>
+  </div>
+  <div class="contact-img">
+    <div class="img-placeholder" style="width:100%;height:100%;min-height:480px;
+      clip-path:polygon(15% 0,100% 0,100% 100%,0 100%);
+      background:linear-gradient(160deg,#280a0a,#1e0404,#3a0c0c);"></div>
+  </div>
+  <div class="page-num">09</div>
+</section>
+ 
+<!-- ═══════════════════════════════════════
+     10 — THANK YOU
+════════════════════════════════════════ -->
+<section id="thankyou">
+  <h2>Thank You</h2>
+  <p>
+    EduAI is built with one belief: every student deserves a brilliant tutor.
+    With AI-powered personalised learning, instant doubt resolution, automatic quizzes,
+    and performance analytics, we are making that belief a reality — one learner at a time.
+    Join us and start your smarter learning journey today.
+  </p>
+  <div class="page-num">10</div>
+</section>
+ 
+</body>
+</html>
